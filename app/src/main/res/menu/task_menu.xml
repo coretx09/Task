@@ -6,9 +6,9 @@
         app:showAsAction="ifRoom"
         android:title="@string/filter"/>
     <item
-        android:title="shopping"
+        android:title="delete"
 
-        android:icon="@drawable/baseline_shopping_cart_24"
+        android:icon="@drawable/baseline_delete_24"
         app:showAsAction="ifRoom"/>
 
     <item android:title="Item"

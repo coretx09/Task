@@ -1,5 +1,6 @@
 package com.gmail.ngampiosauvet.task.data.source.local
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
@@ -8,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * The methods for writing data are suspending functions because they are performing I/O operations.
  */
-
+@Dao
 interface TaskDao {
     // Insertion dans une table, ou update de l'enregistrement s'il existe pas
     @Upsert
@@ -18,16 +19,20 @@ interface TaskDao {
     suspend fun upsertAllTasks(tasks: List<TaskEntity>)
 
     @Delete
-    suspend fun deleteTask(vararg task: TaskEntity)
+    suspend fun deleteTasks(tasks: List<TaskEntity>)
+
+    @Delete
+    suspend fun deleteItemTask(task: TaskEntity)
 
     @Query("DELETE FROM tasks")
     suspend fun deleteAllTasks()
 
     @Query("SELECT * FROM tasks")
-    fun loadAllTasks(): Flow<TaskEntity>
+    fun getAllTasks(): Flow<List<TaskEntity>>
+
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
-    fun loadTaskById(taskId:String) : Flow<TaskEntity>
+    fun getTaskById(taskId:String) : Flow<TaskEntity>
 
     /**
      * updated status task
