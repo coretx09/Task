@@ -25,13 +25,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_title"
                 app:layout_constraintTop_toTopOf="@id/checkbox_title"
                 app:layout_constraintStart_toEndOf="@id/checkbox_title"
-                android:text="Maths" />
+                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
