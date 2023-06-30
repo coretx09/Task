@@ -8,16 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.ItemListTaskBinding
 
-class TasksAdapter(private val onClickItem:(Task) -> Unit ):
-    ListAdapter<Task, TasksAdapter.TaskViewHolder>(DiffCallback) {
+class TasksAdapter(
+    private val onClickCheckbox: (Task) -> Unit,
+    private val onClickItemView: (Task) -> Unit,
+) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(DiffCallback) {
 
 
-
-    class TaskViewHolder(private var binding:ItemListTaskBinding ):
+    class TaskViewHolder(binding: ItemListTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(task: Task){
 
-            }
+        val checkboxTitle = binding.checkboxTitle
+        val title = binding.title
 
     }
 
@@ -30,15 +31,24 @@ class TasksAdapter(private val onClickItem:(Task) -> Unit ):
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-      val task = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickItem
+        val task = getItem(position)
+
+        holder.checkboxTitle.isChecked =  task.isCompleted
+        holder.checkboxTitle.setOnCheckedChangeListener { _, isChecked ->
+              task.isCompleted = isChecked
+              onClickCheckbox(task)
         }
-        holder.bind(task)
+
+
+
+        holder.title.text = task.title
+
+        holder.itemView.setOnClickListener {
+            onClickItemView(task) }
     }
 
 
-    companion object  {
+    companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldTask: Task, newTask: Task): Boolean {
                 return oldTask === newTask

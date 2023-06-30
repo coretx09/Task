@@ -2,10 +2,9 @@ package com.gmail.ngampiosauvet.task.data
 
 import com.gmail.ngampiosauvet.task.data.source.local.TaskDao
 import com.gmail.ngampiosauvet.task.data.source.local.asExternalTask
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import java.util.UUID
 
 
@@ -21,8 +20,9 @@ import java.util.UUID
 
 class TaskRepository (
         private val taskDao: TaskDao,
-        private val dispatcher: CoroutineDispatcher
-        ) {
+        private val dispatcher: CoroutineDispatcher,
+
+) {
 
         fun getAllTasks(): Flow<List<Task>> {
                 return taskDao.getAllTasks().map {
@@ -36,24 +36,31 @@ class TaskRepository (
                 }
         }
 
-        suspend fun create(title:String, description:String) : String {
-                // for complex operation need other dispatcher
-                val taskId = withContext(dispatcher) {
-                        createTasId()
-                }
+        suspend fun insertTask(title:String, description:String,)  {
+                // Simple operation don't need other Dispatcher
                 val task = Task(
-                        id = taskId,
                         title = title,
                         description = description,
                 )
-                // Simple operation don't need other Dispatcher
-                taskDao.upsertTask(task.asTaskEntity())
-                return taskId
+                taskDao.insertTask(task.asTaskEntity())
+
+        }
+
+        suspend fun update(title:String, description:String, isCompleted:Boolean) {
+                withContext(dispatcher){
+                        val task = Task(
+                                title = title,
+                                description = description,
+                                isCompleted = isCompleted
+                        )
+                        taskDao.updateTask(task.asTaskEntity())
+                }
         }
         private fun createTasId() : String = UUID.randomUUID().toString()
 
-        suspend fun complete(taskId: String) {
-                taskDao.updateCompleted(taskId, true)
+        suspend fun complete(taskId: Int, isCompleted: Boolean
+                 ) {
+                taskDao.updateCompleted(taskId, isCompleted)
         }
 
         suspend fun deleteAllTask() {

@@ -1,9 +1,6 @@
 package com.gmail.ngampiosauvet.task.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,8 +9,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
     // Insertion dans une table, ou update de l'enregistrement s'il existe pas
-    @Upsert
-    suspend fun upsertTask(task: TaskEntity)
+    @Insert
+    suspend fun insertTask(task: TaskEntity)
+
+    @Update
+    suspend fun updateTask(task: TaskEntity)
 
     @Upsert
     suspend fun upsertAllTasks(tasks: List<TaskEntity>)
@@ -38,7 +38,7 @@ interface TaskDao {
      * updated status task
      */
     @Query("UPDATE tasks SET isCompleted = :completed WHERE id = :taskId")
-    suspend fun updateCompleted(taskId: String, completed: Boolean)
+    suspend fun updateCompleted(taskId: Int, completed: Boolean)
 
 
 

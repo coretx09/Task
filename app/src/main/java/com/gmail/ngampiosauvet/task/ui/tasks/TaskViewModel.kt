@@ -8,39 +8,80 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.gmail.ngampiosauvet.task.TaskApplication
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.data.TaskRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 sealed class TasksUiState {
-    data class Success(val items: List<Task>, ) : TasksUiState()
+    data class Success(
+        val items: List<Task> = emptyList(),
+        val isCompleted: Boolean = false
+    ) : TasksUiState()
+
     object EmptyTask : TasksUiState()
 }
 
 class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
 
-    private val _taskUiState = MutableStateFlow<TasksUiState>(TasksUiState.EmptyTask)
+    private val _taskUiState = MutableStateFlow<TasksUiState>(TasksUiState.Success())
     val tasksUiState: StateFlow<TasksUiState> = _taskUiState.asStateFlow()
 
-    init {
-        getTask()
-    }
+    init { getTask() }
+   // private val _taskStream = MutableStateFlow(List<Task>> )
+
 
 
     // GET ALL TASKS
-    private fun getTask() {
+
+   private fun getTask() {
+       viewModelScope.launch {
+           val itemsDb = taskRepository.getAllTasks()
+           val emptyList: List<Task> = emptyList()
+           itemsDb.collect { items ->
+               _taskUiState.update {
+                   TasksUiState.Success(items)
+               }
+               if (items == emptyList) {
+                   _taskUiState.update { TasksUiState.EmptyTask }
+               }
+
+           }
+
+       }
+   }
+
+    fun completed(taskId: Int, isCompleted:Boolean, //task: Task
+    ) {
+       // val isComplet = !isCompleted
+
         viewModelScope.launch {
-            val itemsDb = taskRepository.getAllTasks()
-            itemsDb.collect {items->
-                   // _taskUiState.value = TasksUiState.Success(it)
-                _taskUiState.update {
-                    TasksUiState.Success(items)
-                }
-                }
+            taskRepository.complete(taskId, isCompleted)
         }
 
+    }
+
+    private fun deleteAllTasks() {
+        _taskUiState.update { TasksUiState.Success(isCompleted = true) }
+        viewModelScope.launch {
+            taskRepository.deleteAllTask()
+        }
+    }
+
+    fun deleteAll() {
+        deleteAllTasks()
+    }
+
+
+
+    fun updateCompleted(taskUi: TasksUiState.Success, task: Task) {
+        val status = taskUi.copy(isCompleted = true)
+
+      //  updateTask(status)
+    }
+
+    private fun updateTask(status:Boolean){
+        viewModelScope.launch {
+            //taskRepository.update(isCompleted = status)
+        }
     }
 
 

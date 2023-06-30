@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_task" />
     <fragment
         android:id="@+id/addEditFragment"
-        android:name="com.gmail.ngampiosauvet.task.ui.AddEditFragment"
+        android:name="com.gmail.ngampiosauvet.task.ui.addTask.AddFragment"
         android:label="fragment_add_edit"
-        tools:layout="@layout/fragment_add_edit" />
+        tools:layout="@layout/fragment_add" />
     <fragment
         android:id="@+id/taskDetailFragment"
         android:name="com.gmail.ngampiosauvet.task.ui.TaskDetailFragment"

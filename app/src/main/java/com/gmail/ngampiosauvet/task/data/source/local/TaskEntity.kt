@@ -10,7 +10,8 @@ import com.gmail.ngampiosauvet.task.data.Task
  */
 @Entity(tableName = "tasks")
 data class TaskEntity(
-    @PrimaryKey val id: String,
+
+    @PrimaryKey(true) val id: Int,
     val title: String,
     val description: String,
     val isCompleted: Boolean,

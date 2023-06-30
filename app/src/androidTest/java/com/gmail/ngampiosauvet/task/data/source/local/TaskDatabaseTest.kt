@@ -47,7 +47,7 @@ class TaskDatabaseTest {
      fun insertTaskAndGetTasks() = runTest {
 
 
-        database.taskDao().upsertTask(task)
+        database.taskDao().insertTask(task)
 
         database.taskDao().updateCompleted(task.id, false)
 

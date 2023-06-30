@@ -6,6 +6,7 @@
         app:showAsAction="ifRoom"
         android:title="@string/filter"/>
     <item
+        android:id="@+id/delete"
         android:title="delete"
 
         android:icon="@drawable/baseline_delete_24"
