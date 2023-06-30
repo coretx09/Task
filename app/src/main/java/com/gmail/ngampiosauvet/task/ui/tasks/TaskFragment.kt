@@ -61,7 +61,7 @@ class TaskFragment :  Fragment() {
         }
 
         val adapter = TasksAdapter(
-            { onClickCheckbox(it) },
+            { onClickCheckbox2(it) },
             { onClickTitle(it) }
         )
         binding.recyclerView.adapter = adapter
@@ -115,13 +115,13 @@ class TaskFragment :  Fragment() {
        // Toast.makeText(context, "${task.title} completed", Toast.LENGTH_SHORT).show()
     }
 
-  /**  private fun onClickCheckbox2(task: Task) :CompoundButton.OnCheckedChangeListener {
+    private fun onClickCheckbox2(task: Task) :CompoundButton.OnCheckedChangeListener {
 
         return CompoundButton.OnCheckedChangeListener{_, isChecked ->
             val taskId = task.id
              viewModel.completed(taskId, isChecked)
         }
-    } **/
+    }
 
     private fun onClickTitle(task: Task){
         val taskId = task.id

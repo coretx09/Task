@@ -9,7 +9,7 @@ data class Task(
     val id: Int = 0,
     val title: String = "",
     val description: String = "",
-    var isCompleted: Boolean = false,
+    val isCompleted: Boolean = false,
 )
 
 fun Task.asTaskEntity() = TaskEntity(

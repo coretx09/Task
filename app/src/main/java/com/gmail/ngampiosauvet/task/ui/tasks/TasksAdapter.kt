@@ -11,7 +11,7 @@ import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.ItemListTaskBinding
 
 class TasksAdapter(
-    private val onClickCheckbox: (Task) -> Unit, //CompoundButton.OnCheckedChangeListener,
+    private val onClickCheckbox: (Task) -> CompoundButton.OnCheckedChangeListener,
     private val onClickItemView: (Task) -> Unit,
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(DiffCallback) {
 
@@ -35,11 +35,13 @@ class TasksAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = getItem(position)
 
+        holder.checkboxTitle.setOnCheckedChangeListener(null)
         holder.checkboxTitle.isChecked =  task.isCompleted
-        holder.checkboxTitle.setOnCheckedChangeListener{ _, isChecked ->
+        holder.checkboxTitle.setOnCheckedChangeListener(onClickCheckbox(task))
+        /**{ _, isChecked ->
               task.isCompleted = isChecked
               onClickCheckbox(task)
-        }
+        }**/
 
 
 
