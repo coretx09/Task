@@ -2,6 +2,8 @@ package com.gmail.ngampiosauvet.task.ui.tasks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
+//import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +11,7 @@ import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.ItemListTaskBinding
 
 class TasksAdapter(
-    private val onClickCheckbox: (Task) -> Unit,
+    private val onClickCheckbox: (Task) -> Unit, //CompoundButton.OnCheckedChangeListener,
     private val onClickItemView: (Task) -> Unit,
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(DiffCallback) {
 
@@ -34,7 +36,7 @@ class TasksAdapter(
         val task = getItem(position)
 
         holder.checkboxTitle.isChecked =  task.isCompleted
-        holder.checkboxTitle.setOnCheckedChangeListener { _, isChecked ->
+        holder.checkboxTitle.setOnCheckedChangeListener{ _, isChecked ->
               task.isCompleted = isChecked
               onClickCheckbox(task)
         }
@@ -42,6 +44,7 @@ class TasksAdapter(
 
 
         holder.title.text = task.title
+        holder.title.paint.isStrikeThruText = task.isCompleted
 
         holder.itemView.setOnClickListener {
             onClickItemView(task) }

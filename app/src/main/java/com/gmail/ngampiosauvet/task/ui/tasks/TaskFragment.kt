@@ -114,6 +114,15 @@ class TaskFragment :  Fragment() {
         )
        // Toast.makeText(context, "${task.title} completed", Toast.LENGTH_SHORT).show()
     }
+
+  /**  private fun onClickCheckbox2(task: Task) :CompoundButton.OnCheckedChangeListener {
+
+        return CompoundButton.OnCheckedChangeListener{_, isChecked ->
+            val taskId = task.id
+             viewModel.completed(taskId, isChecked)
+        }
+    } **/
+
     private fun onClickTitle(task: Task){
         val taskId = task.id
         Toast.makeText(context, "GO $taskId ", Toast.LENGTH_SHORT).show()
