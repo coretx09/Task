@@ -69,17 +69,11 @@ class TaskRepository (
                 }
         }
 
-        suspend fun deleteTasks(task: List<Task>) {
-                withContext(dispatcher) {
-                        taskDao.deleteTasks(task.asTaskEntity())
-                }
-        }
 
         suspend fun deleteItemTask(task: Task){
                 taskDao.deleteItemTask(task.asTaskEntity())
         }
 }
-
 
 
 

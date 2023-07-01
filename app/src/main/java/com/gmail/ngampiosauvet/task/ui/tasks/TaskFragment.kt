@@ -16,6 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.gmail.ngampiosauvet.task.R
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
@@ -103,6 +105,27 @@ class TaskFragment :  Fragment() {
             }
         }
 
+
+        val itemTouchHelperCallback = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val task = adapter.currentList[position]
+                viewModel.deleteItemTask(task)
+            }
+        } )
+        itemTouchHelperCallback.attachToRecyclerView(binding.recyclerView)
+
     }
 
     private fun onClickCheckbox(task: Task){
@@ -138,6 +161,8 @@ class TaskFragment :  Fragment() {
 
             .show()
     }
+
+
 
 
 

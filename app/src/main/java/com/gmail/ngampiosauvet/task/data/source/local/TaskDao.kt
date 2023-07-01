@@ -1,6 +1,7 @@
 package com.gmail.ngampiosauvet.task.data.source.local
 
 import androidx.room.*
+import com.gmail.ngampiosauvet.task.data.Task
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -18,8 +19,6 @@ interface TaskDao {
     @Upsert
     suspend fun upsertAllTasks(tasks: List<TaskEntity>)
 
-    @Delete
-    suspend fun deleteTasks(tasks: List<TaskEntity>)
 
     @Delete
     suspend fun deleteItemTask(task: TaskEntity)

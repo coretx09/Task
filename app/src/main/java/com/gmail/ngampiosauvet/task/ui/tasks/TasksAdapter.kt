@@ -53,6 +53,9 @@ class TasksAdapter(
     }
 
 
+
+
+
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldTask: Task, newTask: Task): Boolean {

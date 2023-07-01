@@ -70,6 +70,14 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
         deleteAllTasks()
     }
 
+    fun deleteItemTask(task: Task) {
+        _taskUiState.update { TasksUiState.Success() }
+        viewModelScope.launch {
+            taskRepository.deleteItemTask(task)
+        }
+    }
+
+
 
 
     fun updateCompleted(taskUi: TasksUiState.Success, task: Task) {
