@@ -28,13 +28,8 @@ import kotlinx.coroutines.launch
 
 class TaskFragment :  Fragment() {
 
-   // private val  task = Task()
-
-
     private var _binding: FragmentTaskBinding? =null
     private val binding get() = _binding!!
-
-
 
     private val viewModel:TaskViewModel by viewModels {TaskViewModel.Factory}
 
@@ -51,25 +46,31 @@ class TaskFragment :  Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // APP BAR CONFIGURATIONS
         val navController = findNavController()
         val drawerLayout = binding.drawerLayout
         val appBarConfiguration= AppBarConfiguration(navController.graph,drawerLayout)
         binding.materialToolbar.setupWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController, )
 
+        // FLOATING BUTTON
         binding.floatingActionButton.setOnClickListener {
             val bottomSheet = AddFragment()
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
         }
 
+        // ADAPTER / RECYCLERVIEW
         val adapter = TasksAdapter(
             { onClickCheckbox2(it) },
             { onClickTitle(it) }
         )
         binding.recyclerView.adapter = adapter
 
+        // ICON - DELETE ALL ITEMS  (APP BAR)
         val delete = binding.materialToolbar.menu.findItem(R.id.delete)
 
+
+        // COLLECT UI STATE AND RENDER
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.tasksUiState.collect() {uiState ->
@@ -95,6 +96,7 @@ class TaskFragment :  Fragment() {
         }
 
 
+        // ACTION - DELETE ALL ITEMS ICON
         binding.materialToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.delete -> {
@@ -106,6 +108,7 @@ class TaskFragment :  Fragment() {
         }
 
 
+        // SWIPE ITEM FOR DELETE
         val itemTouchHelperCallback = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT
@@ -128,29 +131,30 @@ class TaskFragment :  Fragment() {
 
     }
 
-    private fun onClickCheckbox(task: Task){
-        val taskId = task.id
-        val isCompleted = task.isCompleted
-        viewModel.completed(
-            taskId,
-            isCompleted
-        )
-       // Toast.makeText(context, "${task.title} completed", Toast.LENGTH_SHORT).show()
-    }
 
+
+
+
+
+
+    //                    MY FUNCTIONS AND RENDERS
+
+    // ACTION - CLICK CHECKBOX
     private fun onClickCheckbox2(task: Task) :CompoundButton.OnCheckedChangeListener {
-
         return CompoundButton.OnCheckedChangeListener{_, isChecked ->
             val taskId = task.id
              viewModel.completed(taskId, isChecked)
         }
     }
 
+    // ACTION - CLICK TITLE
     private fun onClickTitle(task: Task){
         val taskId = task.id
         Toast.makeText(context, "GO $taskId ", Toast.LENGTH_SHORT).show()
     }
 
+
+    // DIALOG - DELETE ALL ITEMS
     private fun deleteAllTasksDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("DELETE TASKS")
