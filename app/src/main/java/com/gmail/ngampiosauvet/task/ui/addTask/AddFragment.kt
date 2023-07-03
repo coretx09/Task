@@ -12,15 +12,16 @@ import com.gmail.ngampiosauvet.task.databinding.FragmentAddBinding
 import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
 import com.gmail.ngampiosauvet.task.ui.tasks.TaskViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AddFragment : BottomSheetDialogFragment()  {
 
 
     private var _binding: FragmentAddBinding? =null
     private val binding get() = _binding!!
 
-    private val viewModel: AddTaskViewModel by viewModels { AddTaskViewModel.Factory}
+    private val viewModel: AddTaskViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

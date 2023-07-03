@@ -24,16 +24,17 @@ import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
 import com.gmail.ngampiosauvet.task.ui.addTask.AddFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class TaskFragment :  Fragment() {
 
     private var _binding: FragmentTaskBinding? =null
     private val binding get() = _binding!!
 
-    private val viewModel:TaskViewModel by viewModels {TaskViewModel.Factory}
-
+    private val viewModel:TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

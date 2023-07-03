@@ -13,7 +13,7 @@ import kotlinx.coroutines.Job
 
 class AppContainer(context: Context) {
 
-
+/**
     private val database: TaskDatabase by lazy { TaskDatabase.getTaskDatabase(context) }
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -22,7 +22,7 @@ class AppContainer(context: Context) {
     private val externalScope: CoroutineScope = CoroutineScope(Job() + Dispatchers.IO )
 
     val taskRepository = TaskRepository(database.taskDao(), defaultDispatcher)
-
+**/
 
 }
 

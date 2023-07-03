@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
+import javax.inject.Inject
 
 
 /**
@@ -18,9 +19,9 @@ import java.util.UUID
  * CoroutineDispatcher: Dispatches work to the appropriate thread.
  */
 
-class TaskRepository (
+class TaskRepository  @Inject constructor(
         private val taskDao: TaskDao,
-        private val dispatcher: CoroutineDispatcher,
+        private val dispatcher: CoroutineDispatcher ,
 
 ) {
 
