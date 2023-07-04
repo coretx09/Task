@@ -12,16 +12,4 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.coroutineContext
 
 @HiltAndroidApp
-class TaskApplication: Application() {
-
-  //  lateinit var  container: AppContainer
-
-    override fun onCreate() {
-        super.onCreate()
-    //    container = AppContainer(this)
-
-    }
-
-
-
-}
+class TaskApplication: Application()
