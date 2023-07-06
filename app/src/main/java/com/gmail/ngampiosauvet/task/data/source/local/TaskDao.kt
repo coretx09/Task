@@ -31,7 +31,7 @@ interface TaskDao {
 
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
-    fun getTaskById(taskId:Int?) : Flow<TaskEntity>
+    fun getTaskById(taskId:Int) : Flow<TaskEntity>
 
     /**
      * updated status task

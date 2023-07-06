@@ -31,7 +31,7 @@ class TaskRepository  @Inject constructor(
                 }
         }
 
-        fun getTaskById(taskId:Int?): Flow<Task> {
+        fun getTaskById(taskId:Int): Flow<Task> {
                 return taskDao.getTaskById(taskId).map {
                         it.asExternalTask()
                 }
