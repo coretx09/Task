@@ -1,16 +1,13 @@
 package com.gmail.ngampiosauvet.task.ui.addTask
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.gmail.ngampiosauvet.task.R
 import com.gmail.ngampiosauvet.task.databinding.FragmentAddBinding
-import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
-import com.gmail.ngampiosauvet.task.ui.tasks.TaskViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +18,7 @@ class AddFragment : BottomSheetDialogFragment()  {
     private var _binding: FragmentAddBinding? =null
     private val binding get() = _binding!!
 
-    private val viewModel: AddTaskViewModel by viewModels()
+    private val viewModel: AddEditTaskViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

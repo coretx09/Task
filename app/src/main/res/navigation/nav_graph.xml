@@ -3,13 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="Edit Task"
     app:startDestination="@id/taskFragment">
 
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.gmail.ngampiosauvet.task.ui.tasks.TaskFragment"
         android:label="Task"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task">
+        <action
+            android:id="@+id/action_taskFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addEditFragment"
         android:name="com.gmail.ngampiosauvet.task.ui.addTask.AddFragment"
@@ -17,7 +22,29 @@
         tools:layout="@layout/fragment_add" />
     <fragment
         android:id="@+id/taskDetailFragment"
-        android:name="com.gmail.ngampiosauvet.task.ui.TaskDetailFragment"
-        android:label="fragment_task_detail"
-        tools:layout="@layout/fragment_task_detail" />
+        android:name="com.gmail.ngampiosauvet.task.ui.taskDetail.TaskDetailFragment"
+        android:label="Edit Task"
+        tools:layout="@layout/fragment_task_detail">
+        <argument
+            android:name="task_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountFragment"
+        android:name="com.gmail.ngampiosauvet.task.ui.login.CreateAccountFragment"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account">
+        <action
+            android:id="@+id/action_createAccountFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.gmail.ngampiosauvet.task.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+    </fragment>
 </navigation>

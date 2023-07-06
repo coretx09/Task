@@ -1,14 +1,13 @@
 package com.gmail.ngampiosauvet.task.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,11 +21,12 @@ import com.gmail.ngampiosauvet.task.R
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
 import com.gmail.ngampiosauvet.task.ui.addTask.AddFragment
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+
+private const val TAG = "TaskFragment"
 
 @AndroidEntryPoint
 class TaskFragment :  Fragment() {
@@ -70,6 +70,7 @@ class TaskFragment :  Fragment() {
 
         // ICON - DELETE ALL ITEMS  (APP BAR)
         val delete = binding.materialToolbar.menu.findItem(R.id.delete)
+        Log.d(TAG, "delete ")
 
 
         // COLLECT UI STATE AND RENDER
@@ -81,7 +82,7 @@ class TaskFragment :  Fragment() {
                             binding.textAllTask.visibility = View.GONE
                             binding.imgLogo.visibility = View.VISIBLE
                             delete.isEnabled = false
-                            binding.noTask.visibility = View.VISIBLE
+
                         }
 
 
@@ -90,7 +91,7 @@ class TaskFragment :  Fragment() {
                             adapter.submitList(uiState.items)
                             binding.imgLogo.visibility = View.GONE
                             delete.isEnabled = true
-                            binding.noTask.visibility = View.GONE
+
                         }
                     }
                 }
@@ -126,6 +127,7 @@ class TaskFragment :  Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val task = adapter.currentList[position]
+                Log.d(TAG, "delete 1 ")
                 viewModel.deleteItemTask(task)
             }
         } )
@@ -152,7 +154,9 @@ class TaskFragment :  Fragment() {
     // ACTION - CLICK TITLE
     private fun onClickTitle(task: Task){
         val taskId = task.id
-        Toast.makeText(context, "GO $taskId ", Toast.LENGTH_SHORT).show()
+        val action = TaskFragmentDirections.actionTaskFragmentToTaskDetailFragment(taskId)
+        this.findNavController().navigate(action)
+        //Toast.makeText(context, "GO $taskId ", Toast.LENGTH_SHORT).show()
     }
 
 
