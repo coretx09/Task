@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.data.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class AddEditTaskUiState(
-    val isLoading:Boolean = false,
+    val isTaskOpen:Boolean = false,
     val task:Task = Task(),
     val isTaskSaved: Boolean = false,
 )
@@ -42,28 +43,34 @@ class AddEditTaskViewModel @Inject constructor(private val taskRepository: TaskR
     }
 
 
-    fun retrieveTaskById2(taskId: Int) {
+  /**  fun retrieveTaskById2(taskId: Int) {
         taskRepository.getTaskById(taskId).stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
             _addEditTaskUiState
         )
-    }
+    }*/
+
 
     fun retrieveTaskById(taskId: Int) {
-        _addEditTaskUiState.update { it.copy(isLoading = true ) }
-        viewModelScope.launch {
-          //  _addEditTaskUiState.update { it.copy(isLoading = true ) }
-            taskRepository.getTaskById(taskId).collect{task ->
-                _addEditTaskUiState.let { uiState ->
-                    uiState.update { it.copy(task = task, isTaskSaved = false) }
-                }
 
-            }
+            _addEditTaskUiState.update { it.copy(isTaskOpen = true ) }
+            viewModelScope.launch {
+
+                taskRepository.getTaskById(taskId)
+                    .catch {  }
+                    .collect {task ->
+                        _addEditTaskUiState.update { it.copy(task = task,) }
+
+
+                        }
+                        _addEditTaskUiState.update { it.copy(isTaskOpen = false) }
+                    }
+
         }
 
 
-    }
+
 
 
 

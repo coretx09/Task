@@ -60,11 +60,18 @@ class TaskDetailFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
+
                 viewModel.addEditTaskUiState.collect{ taskUiState->
-                    task = taskUiState.task
-                    binding.editTitle.setText(task.title)
-                    binding.editDescription.setText(task.description)
-                    Log.d(TAG, "bind edit")
+
+
+                    Log.d(TAG, "collecting")
+                    if (taskUiState.isTaskOpen) {
+                        task = taskUiState.task
+                        Log.d(TAG, "collecting ${task.title}")
+                        binding.editTitle.setText(task.title)
+                        binding.editDescription.setText(task.description)
+                        Log.d(TAG, "bind edit ${task.title}")
+                    }
 
                 }
             }

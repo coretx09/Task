@@ -70,7 +70,7 @@ class TaskFragment :  Fragment() {
 
         // ICON - DELETE ALL ITEMS  (APP BAR)
         val delete = binding.materialToolbar.menu.findItem(R.id.delete)
-        Log.d(TAG, "delete ")
+
 
 
         // COLLECT UI STATE AND RENDER
@@ -82,6 +82,7 @@ class TaskFragment :  Fragment() {
                             binding.textAllTask.visibility = View.GONE
                             binding.imgLogo.visibility = View.VISIBLE
                             delete.isEnabled = false
+                            Log.d(TAG, "delete all")
 
                         }
 
@@ -129,6 +130,7 @@ class TaskFragment :  Fragment() {
                 val task = adapter.currentList[position]
                 Log.d(TAG, "delete 1 ")
                 viewModel.deleteItemTask(task)
+                Log.d(TAG, "delete item ${task.title}")
             }
         } )
         itemTouchHelperCallback.attachToRecyclerView(binding.recyclerView)

@@ -1,6 +1,7 @@
 package com.gmail.ngampiosauvet.task.data
 
 import com.gmail.ngampiosauvet.task.data.source.local.TaskDao
+import com.gmail.ngampiosauvet.task.data.source.local.TaskEntity
 import com.gmail.ngampiosauvet.task.data.source.local.asExternalTask
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -32,9 +33,8 @@ class TaskRepository  @Inject constructor(
         }
 
         fun getTaskById(taskId:Int): Flow<Task> {
-                return taskDao.getTaskById(taskId).map {
-                        it.asExternalTask()
-                }
+              return taskDao.getTaskById(taskId).map {
+                                it.asExternalTask() }
         }
 
         suspend fun insertTask(title:String, description:String,)  {
