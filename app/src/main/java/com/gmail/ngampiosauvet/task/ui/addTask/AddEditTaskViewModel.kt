@@ -54,20 +54,26 @@ class AddEditTaskViewModel @Inject constructor(private val taskRepository: TaskR
 
     fun retrieveTaskById(taskId: Int) {
 
-            _addEditTaskUiState.update { it.copy(isTaskOpen = true ) }
             viewModelScope.launch {
+                _addEditTaskUiState.update { it.copy(isTaskOpen = true ) }
 
                 taskRepository.getTaskById(taskId)
                     .catch {  }
                     .collect {task ->
                         _addEditTaskUiState.update { it.copy(task = task,) }
 
-
                         }
                         _addEditTaskUiState.update { it.copy(isTaskOpen = false) }
                     }
 
         }
+
+     fun updateTask(taskId: Int, title: String, description: String, isCompleted:Boolean) {
+        viewModelScope.launch {
+            taskRepository.update(taskId, title, description, isCompleted)
+            _addEditTaskUiState.update { it.copy(isTaskSaved = true) }
+        }
+    }
 
 
 

@@ -41,8 +41,7 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
             val emptyList: List<Task> = emptyList()
             itemsDb.collect { items ->
                 _taskUiState.update {
-                    TasksUiState.Success(items)
-                }
+                    TasksUiState.Success(items) }
                 if (items == emptyList) {
                     _taskUiState.update { TasksUiState.EmptyTask }
                 }

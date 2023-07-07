@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -55,6 +56,7 @@ class TaskDetailFragment : Fragment() {
 
 
         val taskId = navArgs.taskId
+        // instance of Task
         viewModel.retrieveTaskById(taskId)
         Log.d(TAG, "LOADING")
 
@@ -76,6 +78,28 @@ class TaskDetailFragment : Fragment() {
                 }
             }
         }
+
+
+        binding.save.setOnClickListener {
+            if (isEntryValid()) {
+                viewModel.updateTask(
+                    taskId,
+                    binding.editTitle.text.toString(),
+                    binding.editDescription.text.toString(),
+                    task.isCompleted
+                )
+                val action = TaskDetailFragmentDirections.actionTaskDetailFragmentToTaskFragment()
+                findNavController().navigate(action)
+            } else
+                Toast.makeText(context, "Add Title", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun isEntryValid(): Boolean{
+        return viewModel.isEntryValid(
+            binding.editTitle.text.toString()
+        )
     }
 
 

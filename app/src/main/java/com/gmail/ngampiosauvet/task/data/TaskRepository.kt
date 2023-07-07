@@ -47,12 +47,14 @@ class TaskRepository  @Inject constructor(
 
         }
 
-        suspend fun update(title:String, description:String, isCompleted:Boolean) {
+        suspend fun update(id:Int ,title:String, description:String,isCompleted:Boolean) {
                 withContext(dispatcher){
                         val task = Task(
+                                id = id,
                                 title = title,
                                 description = description,
-                                isCompleted = isCompleted
+                                isCompleted = isCompleted,
+
                         )
                         taskDao.updateTask(task.asTaskEntity())
                 }
