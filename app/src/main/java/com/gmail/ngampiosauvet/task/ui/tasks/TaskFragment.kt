@@ -177,21 +177,4 @@ class TaskFragment :  Fragment() {
 
 
 
-
-
-    private fun render(uiState: TasksUiState){
-        when (uiState) {
-            is TasksUiState.Success -> {
-                binding.textAllTask.visibility = View.VISIBLE
-               // adapter.submitList(uiState.items)
-                binding.imgLogo.visibility = View.GONE
-            }
-            TasksUiState.EmptyTask -> {
-                binding.textAllTask.visibility = View.GONE
-                binding.imgLogo.visibility = View.VISIBLE
-            }
-        }
-    }
-
-
 }

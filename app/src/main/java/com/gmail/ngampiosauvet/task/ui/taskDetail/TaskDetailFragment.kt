@@ -56,9 +56,9 @@ class TaskDetailFragment : Fragment() {
 
 
         val taskId = navArgs.taskId
-        // instance of Task
+
         viewModel.retrieveTaskById(taskId)
-        Log.d(TAG, "LOADING")
+        Log.d(TAG, "task Research by id ")
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -68,11 +68,12 @@ class TaskDetailFragment : Fragment() {
 
                     Log.d(TAG, "collecting")
                     if (taskUiState.isTaskOpen) {
+                        // task Initialization
                         task = taskUiState.task
-                        Log.d(TAG, "collecting ${task.title}")
+                        Log.d(TAG, "task ${task.title} initialized")
                         binding.editTitle.setText(task.title)
                         binding.editDescription.setText(task.description)
-                        Log.d(TAG, "bind edit ${task.title}")
+                        Log.d(TAG, "binding data ${task.title}")
                     }
 
                 }
@@ -90,8 +91,11 @@ class TaskDetailFragment : Fragment() {
                 )
                 val action = TaskDetailFragmentDirections.actionTaskDetailFragmentToTaskFragment()
                 findNavController().navigate(action)
-            } else
+            } else {
+                binding.editTitleLayout.isErrorEnabled = true
+                binding.editTitleLayout.error = "Add Title"
                 Toast.makeText(context, "Add Title", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

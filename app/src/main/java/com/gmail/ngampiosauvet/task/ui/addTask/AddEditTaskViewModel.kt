@@ -1,5 +1,6 @@
 package com.gmail.ngampiosauvet.task.ui.addTask
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.ngampiosauvet.task.data.Task
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "TaskFragment"
 data class AddEditTaskUiState(
     val isTaskOpen:Boolean = false,
     val task:Task = Task(),
@@ -58,9 +60,10 @@ class AddEditTaskViewModel @Inject constructor(private val taskRepository: TaskR
                 _addEditTaskUiState.update { it.copy(isTaskOpen = true ) }
 
                 taskRepository.getTaskById(taskId)
-                    .catch {  }
+                    .catch { Log.d(TAG, "ID Exception catch: not retrieved ") }
                     .collect {task ->
                         _addEditTaskUiState.update { it.copy(task = task,) }
+                        Log.d(TAG, "created instance of Task")
 
                         }
                         _addEditTaskUiState.update { it.copy(isTaskOpen = false) }

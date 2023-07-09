@@ -31,28 +31,28 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+
+                app:boxBackgroundColor="#EAF1F1"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
                 app:boxCornerRadiusTopStart="15dp"
-                app:boxBackgroundColor="#EAF1F1"
-                app:hintTextColor="@color/seconde"
                 app:boxStrokeColor="@color/seconde"
-
                 app:boxStrokeWidth="0dp"
-                app:errorEnabled="true">
+                android:hint="@string/title"
+                app:hintTextColor="@color/seconde">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/edit_title"
-                    android:hint="@string/title"
+
                     android:inputType="textShortMessage|text"
-                    android:singleLine="true"
-                    app:errorEnabled="true" />
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +76,7 @@
                     android:gravity="start|top"
                     android:hint="@string/description"
                     android:inputType="textLongMessage|textMultiLine|text|textImeMultiLine"
-                    app:errorEnabled="true"
+
                     app:helperText="Your Description here" />
             </com.google.android.material.textfield.TextInputLayout>
 
