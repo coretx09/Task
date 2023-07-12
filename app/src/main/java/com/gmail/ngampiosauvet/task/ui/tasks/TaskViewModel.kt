@@ -10,6 +10,7 @@ import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.data.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
 
     private fun getTask() {
         viewModelScope.launch {
-            val itemsDb = taskRepository.getAllTasks()
+            val itemsDb = taskRepository.getAllTasks
             val emptyList: List<Task> = emptyList()
             itemsDb.collect { items ->
                 _taskUiState.update {
@@ -51,11 +52,31 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
         }
     }
 
+    fun getAllTaskDesc() {
+        viewModelScope.launch {
+            val itemsDb = taskRepository.getAllTaskDesc
+            val emptyList: List<Task> = emptyList()
+            itemsDb.collect { items ->
+                _taskUiState.update {
+                    TasksUiState.Success(items) }
+                if (items == emptyList) {
+                    _taskUiState.update { TasksUiState.EmptyTask }
+                }
+
+            }
+
+        }
+
+
+    }
+
+
+
+
+
     fun completed(
         taskId: Int, isCompleted: Boolean, //task: Task
     ) {
-        // val isComplet = !isCompleted
-
         viewModelScope.launch {
             taskRepository.complete(taskId, isCompleted)
         }
@@ -80,18 +101,6 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
         }
     }
 
-
-    fun updateCompleted(taskUi: TasksUiState.Success, task: Task) {
-        val status = taskUi.copy(isCompleted = true)
-
-        //  updateTask(status)
-    }
-
-    private fun updateTask(status: Boolean) {
-        viewModelScope.launch {
-            //taskRepository.update(isCompleted = status)
-        }
-    }
 }
 
 

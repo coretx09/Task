@@ -23,6 +23,7 @@ import com.gmail.ngampiosauvet.task.databinding.FragmentTaskBinding
 import com.gmail.ngampiosauvet.task.ui.addTask.AddFragment
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -71,6 +72,8 @@ class TaskFragment :  Fragment() {
         // ICON - DELETE ALL ITEMS  (APP BAR)
         val delete = binding.materialToolbar.menu.findItem(R.id.delete)
 
+        val order = binding.materialToolbar.menu.findItem(R.id.order)
+
 
 
         // COLLECT UI STATE AND RENDER
@@ -107,6 +110,10 @@ class TaskFragment :  Fragment() {
                     deleteAllTasksDialog()
                     true
                 }
+                 R.id.order ->{
+                     viewModel.getAllTaskDesc()
+                     true
+                 }
                 else -> false
             }
         }
@@ -129,8 +136,14 @@ class TaskFragment :  Fragment() {
                 val position = viewHolder.adapterPosition
                 val task = adapter.currentList[position]
                 Log.d(TAG, "delete 1 ")
+                Snackbar.make(binding.snackbar,"Task deleted", Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.floatingActionButton)
+                    .show()
                 viewModel.deleteItemTask(task)
                 Log.d(TAG, "delete item ${task.title}")
+
+
+
             }
         } )
         itemTouchHelperCallback.attachToRecyclerView(binding.recyclerView)

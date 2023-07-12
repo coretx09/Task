@@ -2,13 +2,8 @@ package com.gmail.ngampiosauvet.task
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,9 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val navHostFragmentt = supportFragmentManager
+        val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHost
-        navController = navHostFragmentt.navController
+        navController = navHostFragment.navController
 
 
 

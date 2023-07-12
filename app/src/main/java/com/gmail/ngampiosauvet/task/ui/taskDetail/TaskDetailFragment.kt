@@ -1,17 +1,22 @@
 package com.gmail.ngampiosauvet.task.ui.taskDetail
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,6 +25,8 @@ import com.gmail.ngampiosauvet.task.R
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.FragmentTaskDetailBinding
 import com.gmail.ngampiosauvet.task.ui.addTask.AddEditTaskViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.integrity.v
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -82,6 +89,7 @@ class TaskDetailFragment : Fragment() {
 
 
         binding.save.setOnClickListener {
+            view?.let { activity?.hideKeyboard(it) }
             if (isEntryValid()) {
                 viewModel.updateTask(
                     taskId,
@@ -89,12 +97,15 @@ class TaskDetailFragment : Fragment() {
                     binding.editDescription.text.toString(),
                     task.isCompleted
                 )
-                val action = TaskDetailFragmentDirections.actionTaskDetailFragmentToTaskFragment()
-                findNavController().navigate(action)
+                //val action = TaskDetailFragmentDirections.actionTaskDetailFragmentToTaskFragment()
+                //findNavController().navigate(action)
+                Toast.makeText(context, "Task saved", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             } else {
                 binding.editTitleLayout.isErrorEnabled = true
                 binding.editTitleLayout.error = "Add Title"
-                Toast.makeText(context, "Add Title", Toast.LENGTH_SHORT).show()
+              //
+                Snackbar.make(binding.snackbar,"Add Title",Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -104,6 +115,12 @@ class TaskDetailFragment : Fragment() {
         return viewModel.isEntryValid(
             binding.editTitle.text.toString()
         )
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 

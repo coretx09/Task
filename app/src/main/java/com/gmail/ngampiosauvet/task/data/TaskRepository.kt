@@ -3,9 +3,13 @@ package com.gmail.ngampiosauvet.task.data
 import com.gmail.ngampiosauvet.task.data.source.local.TaskDao
 import com.gmail.ngampiosauvet.task.data.source.local.TaskEntity
 import com.gmail.ngampiosauvet.task.data.source.local.asExternalTask
+import com.gmail.ngampiosauvet.task.di.DefaultDispatcher
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import java.util.UUID
 import javax.inject.Inject
 
@@ -22,15 +26,20 @@ import javax.inject.Inject
 
 class TaskRepository  @Inject constructor(
         private val taskDao: TaskDao,
-        private val dispatcher: CoroutineDispatcher ,
+       @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+        private val externalScope: CoroutineScope,
 
 ) {
 
-        fun getAllTasks(): Flow<List<Task>> {
-                return taskDao.getAllTasks().map {
-                        it.asExternalTask()
+        val getAllTasks: Flow<List<Task>> = taskDao.getAllTasks().map {
+                     it.asExternalTask()
                 }
-        }
+
+
+        val  getAllTaskDesc : Flow<List<Task>> = taskDao.getAllTaskDesc().map {
+                it.asExternalTask()
+                }
+
 
         fun getTaskById(taskId:Int): Flow<Task> {
               return taskDao.getTaskById(taskId).map {

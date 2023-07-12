@@ -12,7 +12,10 @@ import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -38,9 +41,21 @@ object DataBaseModule {
     }
 
     @Singleton
+    @DefaultDispatcher
     @Provides
     fun provideDispatcher():CoroutineDispatcher {
         return Dispatchers.Default
     }
 
+    @Provides
+    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Singleton
+    @Provides
+    fun provideExternalScope(): CoroutineScope {
+        return CoroutineScope(Job() + Dispatchers.Main)
+    }
+
 }
+@Qualifier
+annotation class DefaultDispatcher

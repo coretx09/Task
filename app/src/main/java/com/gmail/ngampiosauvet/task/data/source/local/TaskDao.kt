@@ -33,6 +33,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     fun getTaskById(taskId:Int) : Flow<TaskEntity>
 
+    @Query("SELECT * FROM tasks ORDER BY isCompleted DESC")
+    fun getAllTaskDesc() : Flow<List<TaskEntity>>
+
     /**
      * updated status task
      */
