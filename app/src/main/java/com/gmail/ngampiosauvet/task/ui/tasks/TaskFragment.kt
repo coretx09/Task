@@ -74,6 +74,12 @@ class TaskFragment :  Fragment() {
 
         val order = binding.materialToolbar.menu.findItem(R.id.order)
 
+        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+         viewModel.logout()
+            true
+
+        }
+
 
 
         // COLLECT UI STATE AND RENDER

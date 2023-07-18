@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.gmail.ngampiosauvet.task.TaskApplication
+import com.gmail.ngampiosauvet.task.data.AccountRepository
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.data.TaskRepository
+import com.gmail.ngampiosauvet.task.data.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -20,10 +22,16 @@ sealed class TasksUiState {
         val isCompleted: Boolean = false
     ) : TasksUiState()
 
+    data class connect(
+        val userInfos: User
+    )
+
     object EmptyTask : TasksUiState()
 }
 @HiltViewModel
-class TaskViewModel @Inject constructor(private val taskRepository: TaskRepository): ViewModel() {
+class TaskViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
+    private val taskRepository: TaskRepository): ViewModel() {
 
     private val _taskUiState = MutableStateFlow<TasksUiState>(TasksUiState.Success())
     val tasksUiState: StateFlow<TasksUiState> = _taskUiState.asStateFlow()
@@ -34,8 +42,8 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
     // private val _taskStream = MutableStateFlow(List<Task>> )
 
 
-    // GET ALL TASKS
 
+    // GET ALL TASKS
     private fun getTask() {
         viewModelScope.launch {
             val itemsDb = taskRepository.getAllTasks
@@ -100,6 +108,11 @@ class TaskViewModel @Inject constructor(private val taskRepository: TaskReposito
             taskRepository.deleteItemTask(task)
         }
     }
+
+    fun logout() =
+        viewModelScope.launch {
+            accountRepository.logout()
+        }
 
 }
 

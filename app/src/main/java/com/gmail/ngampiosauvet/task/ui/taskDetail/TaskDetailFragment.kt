@@ -25,6 +25,8 @@ import com.gmail.ngampiosauvet.task.R
 import com.gmail.ngampiosauvet.task.data.Task
 import com.gmail.ngampiosauvet.task.databinding.FragmentTaskDetailBinding
 import com.gmail.ngampiosauvet.task.ui.addTask.AddEditTaskViewModel
+import com.gmail.ngampiosauvet.task.utils.hideKeyboard
+import com.gmail.ngampiosauvet.task.utils.toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.integrity.v
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,7 +101,8 @@ class TaskDetailFragment : Fragment() {
                 )
                 //val action = TaskDetailFragmentDirections.actionTaskDetailFragmentToTaskFragment()
                 //findNavController().navigate(action)
-                Toast.makeText(context, "Task saved", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Task saved", Toast.LENGTH_SHORT).show()
+                toast(context, "TasK saved")
                 findNavController().navigateUp()
             } else {
                 binding.editTitleLayout.isErrorEnabled = true
@@ -117,11 +120,7 @@ class TaskDetailFragment : Fragment() {
         )
     }
 
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager =
-            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
+
 
 
 }
