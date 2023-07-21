@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+             <!--
             <TextView
                 android:id="@+id/user_name"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -35,8 +35,10 @@
                 android:textColor="@color/white"
 
                 tools:text="Ngampio Sauvet" />
+                -->
 
             <TextView
+                android:id="@+id/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"

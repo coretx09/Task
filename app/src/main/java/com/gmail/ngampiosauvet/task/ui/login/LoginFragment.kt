@@ -44,7 +44,7 @@ class LoginFragment : Fragment() {
 
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.signupUiState.collect() {
+                viewModel.loginUiState.collect() {
                     when(it) {
                          Resource.Loading -> {
 

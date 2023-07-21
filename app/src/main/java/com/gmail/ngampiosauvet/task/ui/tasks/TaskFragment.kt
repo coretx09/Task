@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -74,10 +75,13 @@ class TaskFragment :  Fragment() {
 
         val order = binding.materialToolbar.menu.findItem(R.id.order)
 
-        binding.navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        val signin = binding.navView.menu.findItem(R.id.loginFragment)
+        val create = binding.navView.menu.findItem(R.id.createAccountFragment)
+
+        val logout = binding.navView.menu.findItem(R.id.logout)
+        logout.setOnMenuItemClickListener {
          viewModel.logout()
             true
-
         }
 
 
@@ -95,13 +99,30 @@ class TaskFragment :  Fragment() {
 
                         }
 
-
                         is TasksUiState.Success -> {
                             binding.textAllTask.visibility = View.VISIBLE
                             adapter.submitList(uiState.items)
                             binding.imgLogo.visibility = View.GONE
                             delete.isEnabled = true
+                        }
 
+                        is TasksUiState.Connected -> {
+                            binding.navView.getHeaderView(0)
+                                .findViewById<TextView>(R.id.user_email)
+                                .text = uiState.userInfos.email
+
+                            signin.isVisible = false
+                            logout.isVisible = true
+                            create.isVisible = false
+
+                        }
+                        is TasksUiState.NotConnected -> {
+                            signin.isVisible = true
+                            logout.isVisible = false
+                            create.isVisible = true
+                            binding.navView.getHeaderView(0)
+                                .findViewById<TextView>(R.id.user_email)
+                                .text = getString(R.string.no_connected)
                         }
                     }
                 }

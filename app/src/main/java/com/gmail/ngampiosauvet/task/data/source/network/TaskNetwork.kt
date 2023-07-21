@@ -17,11 +17,10 @@ val imgSrc: String
  */
 
 @Serializable
-data class NetworkClass(
+data class TaskNetwork(
     val id: String,
     val title:String,
     val shortDescription: String,
-    val priority: Int? = null,
     val status: TaskStatus = TaskStatus.ACTIVE
 ) {
     enum class TaskStatus {

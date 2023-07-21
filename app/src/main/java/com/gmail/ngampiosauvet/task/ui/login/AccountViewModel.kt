@@ -19,36 +19,36 @@ class AccountViewModel @Inject constructor (
     val signupUiState: StateFlow<Resource<User>?> = _signupUiState.asStateFlow()
 
 
-    private val _loginUiState = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val loginUiState: StateFlow<Resource<FirebaseUser>?> = _loginUiState.asStateFlow()
+    private val _loginUiState = MutableStateFlow<Resource<User>?>(null)
+    val loginUiState: StateFlow<Resource<User>?> = _loginUiState.asStateFlow()
 
-    val currentUser:StateFlow<User?>
+   /* val currentUser:StateFlow<User>
         get() = accountRepository.currentUser.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             User()
-        )
+        ) */
 
-    /*
-    init {
-        if (accountRepository.currentUser != null) {
-            _signupUiState.value = Resource.Success(accountRepository.currentUser!!)
+
+   /* init {
+        if (accountRepository.currentUser1 != null) {
+            _loginUiState.update { Resource.Success(accountRepository.currentUser!!) }
         }
     } */
 
        fun signup(email:String, password:String) =
            viewModelScope.launch {
-               _signupUiState.value = Resource.Loading
+               _signupUiState.update { Resource.Loading }
                val result = accountRepository.createAccount(email=email,password= password)
-               _signupUiState.value = result
+               _signupUiState.update { result }
            }
 
 
     fun login(email: String, password: String) =
         viewModelScope.launch {
-            _loginUiState.value = Resource.Loading
+            _loginUiState.update { Resource.Loading }
             val result = accountRepository.login(email, password)
-            _loginUiState.value = result
+            _loginUiState.update { result }
         }
 
 
